@@ -176,6 +176,12 @@ class Birthdaygram {
         const wishesList = document.getElementById('wishesList');
         const viewCommentsLinks = document.querySelectorAll('.view-comments');
 
+        // Check if modal elements exist before adding listeners
+        if (!modal || !closeBtn || !wishInput || !addWishBtn || !wishesList) {
+            console.warn('Wishes modal elements not found');
+            return;
+        }
+
         viewCommentsLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -207,6 +213,8 @@ class Birthdaygram {
 
     openWishesModal(postId) {
         const modal = document.getElementById('wishesModal');
+        if (!modal) return;
+        
         const wishes = this.wishesData[postId] || [];
         
         this.renderWishes(wishes);
@@ -216,12 +224,14 @@ class Birthdaygram {
         
         // Focus management
         const closeBtn = document.getElementById('closeWishes');
-        closeBtn.focus();
+        if (closeBtn) closeBtn.focus();
     }
 
     closeWishesModal() {
         const modal = document.getElementById('wishesModal');
         const wishInput = document.getElementById('wishInput');
+        
+        if (!modal || !wishInput) return;
         
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
@@ -229,11 +239,13 @@ class Birthdaygram {
         wishInput.value = '';
         
         const addWishBtn = document.getElementById('addWishBtn');
-        addWishBtn.disabled = true;
+        if (addWishBtn) addWishBtn.disabled = true;
     }
 
     renderWishes(wishes) {
         const wishesList = document.getElementById('wishesList');
+        if (!wishesList) return;
+        
         wishesList.innerHTML = '';
         
         wishes.forEach(wish => {
@@ -254,6 +266,9 @@ class Birthdaygram {
     addNewWish() {
         const wishInput = document.getElementById('wishInput');
         const wishesList = document.getElementById('wishesList');
+        
+        if (!wishInput || !wishesList) return;
+        
         const wishText = wishInput.value.trim();
         
         if (!wishText) return;
@@ -280,7 +295,7 @@ class Birthdaygram {
         wishInput.value = '';
         
         const addWishBtn = document.getElementById('addWishBtn');
-        addWishBtn.disabled = true;
+        if (addWishBtn) addWishBtn.disabled = true;
         
         wishesList.scrollTop = wishesList.scrollHeight;
         this.hapticFeedback();
@@ -349,13 +364,13 @@ class Birthdaygram {
                 const firstPost = document.querySelector('.post');
                 if (firstPost) {
                     const likeButton = firstPost.querySelector('.like-btn');
-                    this.handleLikeClick(likeButton);
+                    if (likeButton) this.handleLikeClick(likeButton);
                 }
             }
             
             if (e.key === 'Escape') {
                 const modal = document.getElementById('wishesModal');
-                if (modal.classList.contains('active')) {
+                if (modal && modal.classList.contains('active')) {
                     this.closeWishesModal();
                 }
             }
