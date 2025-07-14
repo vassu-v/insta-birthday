@@ -1,112 +1,166 @@
 // Birthdaygram - Instagram-style Birthday Invitation UI
-class Birthdaygram {
-    constructor() {
-        this.carousels = new Map();
-        this.wishesData = {
-            1: [
-                {
-                    username: 'sarah_jones',
-                    avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-                    text: 'Happy birthday! Hope you have an amazing celebration! 🎉',
-                    time: '2h'
-                },
-                {
-                    username: 'mike_photo',
-                    avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-                    text: 'Wishing you all the best on your special day! 🎂',
-                    time: '3h'
-                },
-                {
-                    username: 'emma_travel',
-                    avatar: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-                    text: 'Can\'t wait to celebrate with you! 🥳',
-                    time: '4h'
-                }
-            ],
-            2: [
-                {
-                    username: 'alex_fit',
-                    avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-                    text: 'Such beautiful memories! Happy birthday! 💕',
-                    time: '1h'
-                },
-                {
-                    username: 'sarah_jones',
-                    avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-                    text: 'Love looking back at all these amazing moments! 📸',
-                    time: '2h'
-                }
-            ]
-        };
-        
-        this.init();
-    }
 
-    init() {
-        this.initializeCarousels();
-        this.initializeLikeButtons();
-        this.initializeBookmarkButtons();
-        this.initializeStories();
-        this.initializeNavigation();
-        this.initializeWishesModal();
-        this.initializeRSVPButtons();
-        this.initializeDoubleTapLike();
-        this.initializeKeyboardNavigation();
-        this.initializeShareButtons();
+document.addEventListener('DOMContentLoaded', function() {
+    // Carousel functionality
+    function initializeCarousel(carousel) {
+        const container = carousel.querySelector('.carousel-container');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const indicators = carousel.querySelectorAll('.indicator');
+        const prevBtn = carousel.querySelector('.prev-btn');
+        const nextBtn = carousel.querySelector('.next-btn');
         
-        console.log('Birthdaygram initialized successfully! 🎉');
-    }
-
-    initializeCarousels() {
-        const carouselElements = document.querySelectorAll('.post-carousel');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
         
-        carouselElements.forEach((carousel, index) => {
-            const carouselId = carousel.dataset.carousel || `carousel-${index}`;
-            this.carousels.set(carouselId, new CarouselController(carousel));
-        });
-    }
-
-    initializeLikeButtons() {
-        const likeButtons = document.querySelectorAll('.like-btn');
-        
-        likeButtons.forEach(button => {
-            const isLiked = button.getAttribute('data-liked') === 'true';
-            this.updateLikeButtonState(button, isLiked);
+        function updateCarousel() {
+            const translateX = -(currentSlide * (100 / totalSlides));
+            container.style.transform = `translateX(${translateX}%)`;
             
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleLikeClick(button);
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+        
+        // Event listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => goToSlide(index));
+        });
+        
+        // Touch/swipe support
+        let startX = 0;
+        let isDragging = false;
+        
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+        
+        carousel.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+        
+        carousel.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+            
+            isDragging = false;
+        });
+        
+        // Mouse drag support for desktop
+        let mouseStartX = 0;
+        let isMouseDragging = false;
+        
+        carousel.addEventListener('mousedown', (e) => {
+            mouseStartX = e.clientX;
+            isMouseDragging = true;
+            carousel.style.cursor = 'grabbing';
+        });
+        
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isMouseDragging) return;
+            e.preventDefault();
+        });
+        
+        carousel.addEventListener('mouseup', (e) => {
+            if (!isMouseDragging) return;
+            
+            const endX = e.clientX;
+            const diff = mouseStartX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+            
+            isMouseDragging = false;
+            carousel.style.cursor = 'grab';
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            isMouseDragging = false;
+            carousel.style.cursor = 'grab';
+        });
+        
+        // Auto-play (optional)
+        // setInterval(nextSlide, 5000);
+    }
+    
+    // Initialize all carousels
+    const carousels = document.querySelectorAll('.post-carousel');
+    carousels.forEach(initializeCarousel);
+    
+    // Like button functionality
+    function initializeLikeButtons() {
+        const likeButtons = document.querySelectorAll('.like-btn');
+        likeButtons.forEach(button => {
+            // Set initial state based on data attribute
+            const isLiked = button.getAttribute('data-liked') === 'true';
+            updateLikeButtonState(button, isLiked);
+            
+            button.addEventListener('click', function() {
+                const currentlyLiked = this.getAttribute('data-liked') === 'true';
+                const newLikedState = !currentlyLiked;
+                
+                this.setAttribute('data-liked', newLikedState.toString());
+                updateLikeButtonState(this, newLikedState);
+                
+                // Update likes count
+                const post = this.closest('.post');
+                const likesCountElement = post.querySelector('.likes-count');
+                const currentCount = parseInt(likesCountElement.getAttribute('data-count'));
+                const newCount = newLikedState ? currentCount + 1 : currentCount - 1;
+                
+                likesCountElement.setAttribute('data-count', newCount.toString());
+                likesCountElement.textContent = newCount.toLocaleString() + ' likes';
+                
+                if (newLikedState) {
+                    // Add animation
+                    this.style.animation = 'likeAnimation 0.3s ease';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 300);
+                }
+                
+                // Haptic feedback
+                hapticFeedback();
             });
         });
     }
-
-    handleLikeClick(button) {
-        const currentlyLiked = button.getAttribute('data-liked') === 'true';
-        const newLikedState = !currentlyLiked;
-        
-        button.setAttribute('data-liked', newLikedState.toString());
-        this.updateLikeButtonState(button, newLikedState);
-        
-        // Update likes count
-        const post = button.closest('.post');
-        const likesCountElement = post.querySelector('.likes-count');
-        const currentCount = parseInt(likesCountElement.getAttribute('data-count'));
-        const newCount = newLikedState ? currentCount + 1 : currentCount - 1;
-        
-        likesCountElement.setAttribute('data-count', newCount.toString());
-        likesCountElement.textContent = `${newCount.toLocaleString()} likes`;
-        
-        if (newLikedState) {
-            button.style.animation = 'likeAnimation 0.3s ease';
-            setTimeout(() => {
-                button.style.animation = '';
-            }, 300);
-        }
-        
-        this.hapticFeedback();
-    }
-
-    updateLikeButtonState(button, isLiked) {
+    
+    function updateLikeButtonState(button, isLiked) {
         const svg = button.querySelector('svg');
         const path = svg.querySelector('path');
         
@@ -121,143 +175,217 @@ class Birthdaygram {
             path.removeAttribute('fill');
         }
     }
-
-    initializeBookmarkButtons() {
-        const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+    
+    // Initialize like buttons
+    initializeLikeButtons();
+    
+    // Bookmark button functionality
+    const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+    bookmarkButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('bookmarked');
+            hapticFeedback();
+        });
+    });
+    
+    // Story click functionality
+    const storyItems = document.querySelectorAll('.story-item');
+    storyItems.forEach(story => {
+        story.addEventListener('click', function() {
+            const username = this.querySelector('.story-username').textContent;
+            
+            // Add viewed state
+            const avatar = this.querySelector('.story-avatar');
+            if (avatar.classList.contains('has-story')) {
+                avatar.style.background = '#DBDBDB';
+                avatar.style.padding = '2px';
+            }
+            
+            console.log(`Viewing story from ${username}`);
+            hapticFeedback();
+        });
+    });
+    
+    // Double tap to like functionality
+    const postCarousels = document.querySelectorAll('.post-carousel');
+    postCarousels.forEach(carousel => {
+        let lastTap = 0;
         
-        bookmarkButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
+        carousel.addEventListener('click', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            
+            if (tapLength < 500 && tapLength > 0) {
+                // Double tap detected
+                const post = this.closest('.post');
+                const likeButton = post.querySelector('.like-btn');
+                
+                if (likeButton.getAttribute('data-liked') !== 'true') {
+                    likeButton.click();
+                    
+                    // Show heart animation
+                    showHeartAnimation(this);
+                }
+                
                 e.preventDefault();
-                button.classList.toggle('bookmarked');
-                this.hapticFeedback();
-            });
+            }
+            
+            lastTap = currentTime;
         });
-    }
-
-    initializeStories() {
-        const storyItems = document.querySelectorAll('.story-item');
+    });
+    
+    // Heart animation for double tap
+    function showHeartAnimation(element) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '❤️';
+        heart.className = 'heart-animation';
         
-        storyItems.forEach(story => {
-            story.addEventListener('click', () => {
-                const username = story.querySelector('.story-username').textContent;
-                const avatar = story.querySelector('.story-avatar');
-                
-                if (avatar.classList.contains('has-story')) {
-                    avatar.style.background = '#DBDBDB';
-                    avatar.style.padding = '2px';
-                }
-                
-                console.log(`Viewing story from ${username}`);
-                this.hapticFeedback();
-            });
+        element.style.position = 'relative';
+        element.appendChild(heart);
+        
+        setTimeout(() => {
+            if (heart.parentNode) {
+                heart.parentNode.removeChild(heart);
+            }
+        }, 600);
+    }
+    
+    // Navigation functionality
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Simulate navigation
+            const pages = ['Home', 'Search', 'Reels', 'Activity', 'Profile'];
+            console.log(`Navigating to ${pages[index]}`);
+            hapticFeedback();
         });
-    }
-
-    initializeNavigation() {
-        const navButtons = document.querySelectorAll('.nav-btn');
-        
-        navButtons.forEach((button, index) => {
-            button.addEventListener('click', () => {
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                const pages = ['Home', 'Search', 'Reels', 'Activity', 'Profile'];
-                console.log(`Navigating to ${pages[index]}`);
-                this.hapticFeedback();
-            });
+    });
+    
+    // Stories horizontal scroll with touch
+    const storiesContainer = document.querySelector('.stories-scroll');
+    let isScrolling = false;
+    let startX;
+    let scrollLeft;
+    
+    storiesContainer.addEventListener('mousedown', (e) => {
+        isScrolling = true;
+        startX = e.pageX - storiesContainer.offsetLeft;
+        scrollLeft = storiesContainer.scrollLeft;
+        storiesContainer.style.cursor = 'grabbing';
+    });
+    
+    storiesContainer.addEventListener('mouseleave', () => {
+        isScrolling = false;
+        storiesContainer.style.cursor = 'grab';
+    });
+    
+    storiesContainer.addEventListener('mouseup', () => {
+        isScrolling = false;
+        storiesContainer.style.cursor = 'grab';
+    });
+    
+    storiesContainer.addEventListener('mousemove', (e) => {
+        if (!isScrolling) return;
+        e.preventDefault();
+        const x = e.pageX - storiesContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        storiesContainer.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Touch events for mobile
+    storiesContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX - storiesContainer.offsetLeft;
+        scrollLeft = storiesContainer.scrollLeft;
+    });
+    
+    storiesContainer.addEventListener('touchmove', (e) => {
+        if (!startX) return;
+        const x = e.touches[0].pageX - storiesContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        storiesContainer.scrollLeft = scrollLeft - walk;
+    });
+    
+    // RSVP button functionality
+    const rsvpButtons = document.querySelectorAll('.rsvp-btn');
+    rsvpButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Simulate RSVP functionality
+            this.textContent = 'RSVP Sent! ✓';
+            this.style.background = '#00C851';
+            this.disabled = true;
+            
+            // You could integrate with actual RSVP services here
+            console.log('RSVP submitted');
+            hapticFeedback();
         });
-    }
-
-    initializeWishesModal() {
-        const modal = document.getElementById('wishesModal');
-        const closeBtn = document.getElementById('closeWishes');
-        const wishInput = document.getElementById('wishInput');
-        const addWishBtn = document.getElementById('addWishBtn');
-        const wishesList = document.getElementById('wishesList');
-        const viewCommentsLinks = document.querySelectorAll('.view-comments');
-
-        // Check if modal elements exist before adding listeners
-        if (!modal || !closeBtn || !wishInput || !addWishBtn || !wishesList) {
-            console.warn('Wishes modal elements not found');
-            return;
-        }
-
-        viewCommentsLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const postId = link.getAttribute('data-post');
-                this.openWishesModal(postId);
-            });
-        });
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.closeWishesModal());
-        }
-        
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.closeWishesModal();
-                }
-            });
-        }
-
-        if (addWishBtn) {
-            addWishBtn.addEventListener('click', () => this.addNewWish());
-        }
-        
-        if (wishInput) {
-            wishInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.addNewWish();
-                }
-            });
-        }
-
-        if (wishInput && addWishBtn) {
-            wishInput.addEventListener('input', () => {
-                addWishBtn.disabled = !wishInput.value.trim();
-            });
-        }
-    }
-
-    openWishesModal(postId) {
-        const modal = document.getElementById('wishesModal');
-        if (!modal) return;
-        
-        const wishes = this.wishesData[postId] || [];
-        
-        this.renderWishes(wishes);
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
+    });
+    
+    // Wishes functionality
+    const wishesModal = document.getElementById('wishesModal');
+    const closeWishesBtn = document.getElementById('closeWishes');
+    const wishInput = document.getElementById('wishInput');
+    const addWishBtn = document.getElementById('addWishBtn');
+    const wishesList = document.getElementById('wishesList');
+    
+    // Sample wishes data
+    const wishesData = {
+        1: [
+            {
+                username: 'sarah_jones',
+                avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
+                text: 'Happy birthday! Hope you have an amazing celebration! 🎉',
+                time: '2h'
+            },
+            {
+                username: 'mike_photo',
+                avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
+                text: 'Wishing you all the best on your special day! 🎂',
+                time: '3h'
+            },
+            {
+                username: 'emma_travel',
+                avatar: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
+                text: 'Can\'t wait to celebrate with you! 🥳',
+                time: '4h'
+            }
+        ],
+        2: [
+            {
+                username: 'alex_fit',
+                avatar: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
+                text: 'Such beautiful memories! Happy birthday! 💕',
+                time: '1h'
+            },
+            {
+                username: 'sarah_jones',
+                avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
+                text: 'Love looking back at all these amazing moments! 📸',
+                time: '2h'
+            }
+        ]
+    };
+    
+    function openWishesModal(postId) {
+        const wishes = wishesData[postId] || [];
+        renderWishes(wishes);
+        wishesModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
-        // Focus management
-        const closeBtn = document.getElementById('closeWishes');
-        if (closeBtn) closeBtn.focus();
     }
-
-    closeWishesModal() {
-        const modal = document.getElementById('wishesModal');
-        const wishInput = document.getElementById('wishInput');
-        
-        if (!modal || !wishInput) return;
-        
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
+    
+    function closeWishesModal() {
+        wishesModal.classList.remove('active');
         document.body.style.overflow = '';
         wishInput.value = '';
-        
-        const addWishBtn = document.getElementById('addWishBtn');
-        if (addWishBtn) addWishBtn.disabled = true;
     }
-
-    renderWishes(wishes) {
-        const wishesList = document.getElementById('wishesList');
-        if (!wishesList) return;
-        
+    
+    function renderWishes(wishes) {
         wishesList.innerHTML = '';
-        
         wishes.forEach(wish => {
             const wishElement = document.createElement('div');
             wishElement.className = 'wish-item';
@@ -272,15 +400,9 @@ class Birthdaygram {
             wishesList.appendChild(wishElement);
         });
     }
-
-    addNewWish() {
-        const wishInput = document.getElementById('wishInput');
-        const wishesList = document.getElementById('wishesList');
-        
-        if (!wishInput || !wishesList) return;
-        
+    
+    function addNewWish() {
         const wishText = wishInput.value.trim();
-        
         if (!wishText) return;
         
         const newWish = {
@@ -304,266 +426,204 @@ class Birthdaygram {
         wishesList.appendChild(wishElement);
         wishInput.value = '';
         
-        const addWishBtn = document.getElementById('addWishBtn');
-        if (addWishBtn) addWishBtn.disabled = true;
-        
+        // Scroll to bottom
         wishesList.scrollTop = wishesList.scrollHeight;
-        this.hapticFeedback();
-    }
-
-    initializeRSVPButtons() {
-        const rsvpButtons = document.querySelectorAll('.rsvp-btn');
         
-        rsvpButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                button.textContent = 'RSVP Sent! ✓';
-                button.style.background = '#00C851';
-                button.disabled = true;
-                
-                console.log('RSVP submitted');
-                this.hapticFeedback();
-            });
+        hapticFeedback();
+    }
+    
+    // Event listeners for wishes
+    const viewCommentsLinks = document.querySelectorAll('.view-comments');
+    viewCommentsLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post');
+            openWishesModal(postId);
         });
-    }
-
-    initializeDoubleTapLike() {
-        const postCarousels = document.querySelectorAll('.post-carousel');
+    });
+    
+    closeWishesBtn.addEventListener('click', closeWishesModal);
+    
+    wishesModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeWishesModal();
+        }
+    });
+    
+    addWishBtn.addEventListener('click', addNewWish);
+    
+    wishInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addNewWish();
+        }
+    });
+    
+    wishInput.addEventListener('input', function() {
+        addWishBtn.disabled = !this.value.trim();
+    });
+    
+    // Music player functionality
+    const musicToggle = document.querySelector('.music-toggle');
+    const musicIcon = document.querySelector('.music-icon');
+    let isPlaying = false;
+    
+    musicToggle.addEventListener('click', function() {
+        isPlaying = !isPlaying;
         
-        postCarousels.forEach(carousel => {
-            let lastTap = 0;
+        if (isPlaying) {
+            this.classList.add('playing');
+            this.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+            `;
+            musicIcon.style.animation = 'musicPulse 1s ease-in-out infinite';
+        } else {
+            this.classList.remove('playing');
+            this.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5,3 19,12 5,21"></polygon>
+                </svg>
+            `;
+            musicIcon.style.animation = 'musicPulse 2s ease-in-out infinite';
+        }
+        
+        hapticFeedback();
+    });
+    
+    // Comment button functionality
+    const commentButtons = document.querySelectorAll('.comment-btn');
+    commentButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const post = this.closest('.post');
+            const viewCommentsLink = post.querySelector('.view-comments');
+            viewCommentsLink.click();
+        });
+    });
+    
+    // Share functionality
+    const shareButtons = document.querySelectorAll('.post-actions-left .action-btn:nth-child(3)');
+    shareButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Birthday Invitation',
+                    text: 'You\'re invited to my birthday party!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    console.log('Link copied to clipboard');
+                });
+            }
+            hapticFeedback();
+        });
+    });
+    
+    // Infinite scroll simulation
+    let isLoading = false;
+    
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && !isLoading) {
+            isLoading = true;
             
-            carousel.addEventListener('click', (e) => {
-                const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTap;
-                
-                if (tapLength < 500 && tapLength > 0) {
-                    const post = carousel.closest('.post');
-                    const likeButton = post.querySelector('.like-btn');
-                    
-                    if (likeButton.getAttribute('data-liked') !== 'true') {
-                        this.handleLikeClick(likeButton);
-                        this.showHeartAnimation(carousel);
-                    }
-                    
-                    e.preventDefault();
-                }
-                
-                lastTap = currentTime;
-            });
-        });
-    }
-
-    showHeartAnimation(element) {
-        const heart = document.createElement('div');
-        heart.innerHTML = '❤️';
-        heart.className = 'heart-animation';
-        
-        element.style.position = 'relative';
-        element.appendChild(heart);
-        
-        setTimeout(() => {
-            if (heart.parentNode) {
-                heart.parentNode.removeChild(heart);
-            }
-        }, 600);
-    }
-
-    initializeKeyboardNavigation() {
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'l' || e.key === 'L') {
-                const firstPost = document.querySelector('.post');
-                if (firstPost) {
-                    const likeButton = firstPost.querySelector('.like-btn');
-                    if (likeButton) this.handleLikeClick(likeButton);
-                }
-            }
+            setTimeout(() => {
+                console.log('Loading more posts...');
+                isLoading = false;
+            }, 1000);
+        }
+    });
+    
+    // Pull-to-refresh simulation
+    let startY = 0;
+    let pullDistance = 0;
+    const refreshThreshold = 100;
+    
+    document.addEventListener('touchstart', (e) => {
+        if (window.scrollY === 0) {
+            startY = e.touches[0].pageY;
+        }
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+        if (window.scrollY === 0 && startY) {
+            pullDistance = e.touches[0].pageY - startY;
             
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('wishesModal');
-                if (modal && modal.classList.contains('active')) {
-                    this.closeWishesModal();
-                }
+            if (pullDistance > 0 && pullDistance < refreshThreshold) {
+                document.body.style.transform = `translateY(${pullDistance * 0.5}px)`;
             }
-        });
-    }
-
-    initializeShareButtons() {
-        const shareButtons = document.querySelectorAll('.share-btn');
+        }
+    });
+    
+    document.addEventListener('touchend', () => {
+        if (pullDistance > refreshThreshold) {
+            console.log('Refreshing feed...');
+            
+            document.body.style.transform = '';
+            document.body.style.transition = 'transform 0.3s ease';
+            
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 300);
+        } else {
+            document.body.style.transform = '';
+            document.body.style.transition = 'transform 0.3s ease';
+            
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 300);
+        }
         
-        shareButtons.forEach(button => {
-            button.addEventListener('click', async () => {
-                if (navigator.share) {
-                    try {
-                        await navigator.share({
-                            title: 'Birthday Invitation',
-                            text: 'You\'re invited to my birthday party!',
-                            url: window.location.href
-                        });
-                    } catch (err) {
-                        console.log('Share cancelled');
-                    }
-                } else {
-                    try {
-                        await navigator.clipboard.writeText(window.location.href);
-                        console.log('Link copied to clipboard');
-                    } catch (err) {
-                        console.log('Failed to copy link');
-                    }
-                }
-                this.hapticFeedback();
-            });
-        });
-    }
-
-    hapticFeedback() {
+        startY = 0;
+        pullDistance = 0;
+    });
+    
+    // Haptic feedback simulation
+    function hapticFeedback() {
         if (navigator.vibrate) {
             navigator.vibrate(10);
         }
     }
-}
-
-class CarouselController {
-    constructor(carousel) {
-        this.carousel = carousel;
-        this.container = carousel.querySelector('.carousel-container');
-        this.slides = carousel.querySelectorAll('.carousel-slide');
-        this.indicators = carousel.querySelectorAll('.indicator');
-        this.prevBtn = carousel.querySelector('.prev-btn');
-        this.nextBtn = carousel.querySelector('.next-btn');
-        
-        this.currentSlide = 0;
-        this.totalSlides = this.slides.length;
-        
-        this.init();
-    }
-
-    init() {
-        this.updateCarousel();
-        this.bindEvents();
-    }
-
-    bindEvents() {
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => this.prevSlide());
+    
+    // Keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'l' || e.key === 'L') {
+            const firstPost = document.querySelector('.post');
+            if (firstPost) {
+                const likeButton = firstPost.querySelector('.like-btn');
+                likeButton.click();
+            }
         }
         
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this.nextSlide());
+        if (e.key === 'ArrowLeft') {
+            storiesContainer.scrollBy({ left: -100, behavior: 'smooth' });
         }
         
-        this.indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => this.goToSlide(index));
-        });
+        if (e.key === 'ArrowRight') {
+            storiesContainer.scrollBy({ left: 100, behavior: 'smooth' });
+        }
         
-        this.initializeTouchEvents();
-        this.initializeMouseEvents();
-    }
-
-    updateCarousel() {
-        const translateX = -(this.currentSlide * (100 / this.totalSlides));
-        this.container.style.transform = `translateX(${translateX}%)`;
-        
-        this.indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === this.currentSlide);
-        });
-        
-        this.slides.forEach((slide, index) => {
-            slide.classList.toggle('active', index === this.currentSlide);
-        });
-    }
-
-    nextSlide() {
-        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-        this.updateCarousel();
-    }
-
-    prevSlide() {
-        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
-        this.updateCarousel();
-    }
-
-    goToSlide(index) {
-        this.currentSlide = index;
-        this.updateCarousel();
-    }
-
-    initializeTouchEvents() {
-        let startX = 0;
-        let isDragging = false;
-        
-        this.carousel.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-        }, { passive: true });
-        
-        this.carousel.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-        });
-        
-        this.carousel.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            
-            const endX = e.changedTouches[0].clientX;
-            const diff = startX - endX;
-            
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    this.nextSlide();
-                } else {
-                    this.prevSlide();
-                }
+        if (e.key === 'ArrowUp') {
+            const activeCarousel = document.querySelector('.post-carousel');
+            if (activeCarousel) {
+                const prevBtn = activeCarousel.querySelector('.prev-btn');
+                prevBtn.click();
             }
-            
-            isDragging = false;
-        }, { passive: true });
-    }
-
-    initializeMouseEvents() {
-        let mouseStartX = 0;
-        let isMouseDragging = false;
+        }
         
-        this.carousel.addEventListener('mousedown', (e) => {
-            mouseStartX = e.clientX;
-            isMouseDragging = true;
-            this.carousel.style.cursor = 'grabbing';
-            e.preventDefault();
-        });
-        
-        this.carousel.addEventListener('mousemove', (e) => {
-            if (!isMouseDragging) return;
-            e.preventDefault();
-        });
-        
-        this.carousel.addEventListener('mouseup', (e) => {
-            if (!isMouseDragging) return;
-            
-            const endX = e.clientX;
-            const diff = mouseStartX - endX;
-            
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    this.nextSlide();
-                } else {
-                    this.prevSlide();
-                }
+        if (e.key === 'ArrowDown') {
+            const activeCarousel = document.querySelector('.post-carousel');
+            if (activeCarousel) {
+                const nextBtn = activeCarousel.querySelector('.next-btn');
+                nextBtn.click();
             }
-            
-            isMouseDragging = false;
-            this.carousel.style.cursor = 'grab';
-        });
-        
-        this.carousel.addEventListener('mouseleave', () => {
-            isMouseDragging = false;
-            this.carousel.style.cursor = 'grab';
-        });
-        
-        // Set initial cursor
-        this.carousel.style.cursor = 'grab';
-    }
-}
-
-// Initialize the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new Birthdaygram();
+        }
+    });
+    
+    // Initialize smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth';
+    
+    console.log('Birthdaygram UI loaded successfully! 🎉✨');
 });

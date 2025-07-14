@@ -1,4 +1,3 @@
-/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -7,8 +6,8 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #FFFFFF;
-    color: #262626;
+    background-color: #000000;
+    color: #FFFFFF;
     overflow-x: hidden;
     line-height: 1.4;
 }
@@ -16,7 +15,7 @@ body {
 .app-container {
     max-width: 430px;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: #000000;
     min-height: 100vh;
     position: relative;
     display: flex;
@@ -25,8 +24,8 @@ body {
 
 /* Header */
 .header {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #DBDBDB;
+    background-color: #000000;
+    border-bottom: 1px solid #262626;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -43,7 +42,7 @@ body {
 .logo {
     font-size: 24px;
     font-weight: 700;
-    color: #262626;
+    color: #FFFFFF;
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.5px;
 }
@@ -56,7 +55,7 @@ body {
 .icon-btn {
     background: none;
     border: none;
-    color: #262626;
+    color: #FFFFFF;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
@@ -67,7 +66,7 @@ body {
 }
 
 .icon-btn:hover {
-    background-color: #F5F5F5;
+    background-color: #1A1A1A;
     transform: scale(1.05);
 }
 
@@ -75,15 +74,111 @@ body {
     transform: scale(0.95);
 }
 
-.icon-btn:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+/* Music Section - Instagram Style */
+.music-section {
+    background-color: #000000;
+    padding: 12px 16px;
+    border-bottom: 1px solid #262626;
+}
+
+.music-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1A1A1A;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #262626;
+    position: relative;
+    overflow: hidden;
+}
+
+.music-player::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255, 107, 107, 0.1) 0%, 
+        rgba(78, 205, 196, 0.1) 100%);
+    pointer-events: none;
+}
+
+.music-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.music-icon {
+    font-size: 16px;
+    animation: musicPulse 2s ease-in-out infinite;
+    color: #FFFFFF;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.music-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.music-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #FFFFFF;
+}
+
+.music-artist {
+    font-size: 11px;
+    opacity: 0.7;
+    line-height: 1.2;
+    color: #A8A8A8;
+}
+
+.music-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.music-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.music-toggle.playing {
+    animation: musicSpin 3s linear infinite;
+}
+
+@keyframes musicSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Stories */
 .stories-container {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #DBDBDB;
+    background-color: #000000;
+    border-bottom: 1px solid #262626;
     padding: 16px 0;
 }
 
@@ -128,7 +223,7 @@ body {
 }
 
 .story-avatar.your-story {
-    border: 2px solid #DBDBDB;
+    border: 2px solid #262626;
 }
 
 .story-avatar img {
@@ -145,7 +240,7 @@ body {
     width: 20px;
     height: 20px;
     background-color: #0095F6;
-    border: 2px solid #FFFFFF;
+    border: 2px solid #000000;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -157,7 +252,7 @@ body {
 
 .story-username {
     font-size: 12px;
-    color: #262626;
+    color: #FFFFFF;
     text-align: center;
     max-width: 66px;
     overflow: hidden;
@@ -169,12 +264,12 @@ body {
 /* Feed */
 .feed {
     flex: 1;
-    background-color: #FFFFFF;
+    background-color: #000000;
 }
 
 .post {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #DBDBDB;
+    background-color: #000000;
+    border-bottom: 1px solid #262626;
     margin-bottom: 0;
 }
 
@@ -208,20 +303,20 @@ body {
 .post-username {
     font-size: 14px;
     font-weight: 600;
-    color: #262626;
+    color: #FFFFFF;
     line-height: 1.2;
 }
 
 .post-location {
     font-size: 12px;
-    color: #8E8E8E;
+    color: #A8A8A8;
     line-height: 1.2;
 }
 
 .more-btn {
     background: none;
     border: none;
-    color: #262626;
+    color: #FFFFFF;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
@@ -229,12 +324,7 @@ body {
 }
 
 .more-btn:hover {
-    background-color: #F5F5F5;
-}
-
-.more-btn:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+    background-color: #1A1A1A;
 }
 
 /* Carousel Styles */
@@ -243,7 +333,7 @@ body {
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    background-color: #F5F5F5;
+    background-color: #1A1A1A;
 }
 
 .carousel-container {
@@ -253,17 +343,17 @@ body {
     transition: transform 0.3s ease;
 }
 
+.memories-carousel {
+    width: 400%;
+}
+
 .carousel-slide {
     width: 20%;
     height: 100%;
     flex-shrink: 0;
 }
 
-.post-carousel[data-carousel="memories"] .carousel-container {
-    width: 400%;
-}
-
-.post-carousel[data-carousel="memories"] .carousel-slide {
+.memories-carousel .carousel-slide {
     width: 25%;
 }
 
@@ -274,6 +364,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     text-align: center;
     position: relative;
@@ -404,11 +495,6 @@ body {
     transform: translateY(0);
 }
 
-.rsvp-btn:focus {
-    outline: 2px solid #FFFFFF;
-    outline-offset: 2px;
-}
-
 .contact-info {
     font-size: 12px;
     opacity: 0.8;
@@ -474,11 +560,6 @@ body {
     transform: translateY(-50%) scale(1.1);
 }
 
-.carousel-btn:focus {
-    outline: 2px solid #FFFFFF;
-    outline-offset: 2px;
-}
-
 .prev-btn {
     left: 16px;
 }
@@ -511,11 +592,6 @@ body {
     transform: scale(1.2);
 }
 
-.indicator:focus {
-    outline: 2px solid #FFFFFF;
-    outline-offset: 2px;
-}
-
 /* Post Actions */
 .post-actions {
     display: flex;
@@ -533,7 +609,7 @@ body {
 .action-btn {
     background: none;
     border: none;
-    color: #262626;
+    color: #FFFFFF;
     cursor: pointer;
     padding: 8px;
     transition: all 0.1s ease;
@@ -546,22 +622,17 @@ body {
     transform: scale(0.9);
 }
 
-.action-btn:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
-}
-
 .like-btn[data-liked="true"] {
     color: #ED4956;
 }
 
 .like-btn[data-liked="true"] svg {
-    fill: #ED4956;
-    stroke: none;
+  fill: #ED4956;
+  stroke: none;
 }
 
 .bookmark-btn.bookmarked {
-    color: #262626;
+    color: #FFFFFF;
 }
 
 .post-likes {
@@ -571,7 +642,7 @@ body {
 .likes-count {
     font-size: 14px;
     font-weight: 600;
-    color: #262626;
+    color: #FFFFFF;
 }
 
 .post-caption {
@@ -582,13 +653,13 @@ body {
 .caption-username {
     font-size: 14px;
     font-weight: 600;
-    color: #262626;
+    color: #FFFFFF;
     margin-right: 8px;
 }
 
 .caption-text {
     font-size: 14px;
-    color: #262626;
+    color: #FFFFFF;
 }
 
 .post-comments {
@@ -597,21 +668,13 @@ body {
 
 .view-comments {
     font-size: 14px;
-    color: #8E8E8E;
-    background: none;
-    border: none;
+    color: #A8A8A8;
     cursor: pointer;
     transition: color 0.2s ease;
-    padding: 0;
 }
 
 .view-comments:hover {
-    color: #262626;
-}
-
-.view-comments:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+    color: #FFFFFF;
 }
 
 .post-time {
@@ -620,174 +683,159 @@ body {
 
 .time-ago {
     font-size: 12px;
-    color: #8E8E8E;
+    color: #A8A8A8;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* Wishes Modal */
 .wishes-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .wishes-modal.active {
-    display: flex;
+  display: flex;
 }
 
 .wishes-content {
-    background: #FFFFFF;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid #DBDBDB;
+  background: #262626;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #3C3C3C;
 }
 
 .wishes-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #DBDBDB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #3C3C3C;
 }
 
 .wishes-header h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #262626;
-    margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
 }
 
 .close-wishes {
-    background: none;
-    border: none;
-    color: #262626;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
 }
 
 .close-wishes:hover {
-    background-color: #F5F5F5;
-}
-
-.close-wishes:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+  background-color: #3C3C3C;
 }
 
 .wishes-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    max-height: 400px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  max-height: 400px;
 }
 
 .wish-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .wish-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .wish-content {
-    flex: 1;
+  flex: 1;
 }
 
 .wish-username {
-    font-size: 14px;
-    font-weight: 600;
-    color: #262626;
-    margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 4px;
 }
 
 .wish-text {
-    font-size: 14px;
-    color: #262626;
-    line-height: 1.4;
-    margin-bottom: 4px;
+  font-size: 14px;
+  color: #FFFFFF;
+  line-height: 1.4;
+  margin-bottom: 4px;
 }
 
 .wish-time {
-    font-size: 12px;
-    color: #8E8E8E;
+  font-size: 12px;
+  color: #A8A8A8;
 }
 
 .add-wish {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border-top: 1px solid #DBDBDB;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid #3C3C3C;
 }
 
 .add-wish input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    color: #262626;
-    background: transparent;
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: transparent;
 }
 
 .add-wish input::placeholder {
-    color: #8E8E8E;
-}
-
-.add-wish input:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+  color: #A8A8A8;
 }
 
 .add-wish button {
-    background: none;
-    border: none;
-    color: #0095F6;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 8px;
-    transition: opacity 0.2s ease;
+  background: none;
+  border: none;
+  color: #0095F6;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  transition: opacity 0.2s ease;
 }
 
 .add-wish button:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .add-wish button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.add-wish button:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* Bottom Navigation */
 .bottom-nav {
-    background-color: #FFFFFF;
-    border-top: 1px solid #DBDBDB;
+    background-color: #000000;
+    border-top: 1px solid #262626;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -801,7 +849,7 @@ body {
 .nav-btn {
     background: none;
     border: none;
-    color: #262626;
+    color: #FFFFFF;
     cursor: pointer;
     padding: 12px;
     transition: all 0.1s ease;
@@ -814,13 +862,8 @@ body {
     transform: scale(0.9);
 }
 
-.nav-btn:focus {
-    outline: 2px solid #0095F6;
-    outline-offset: 2px;
-}
-
 .nav-btn.active {
-    color: #262626;
+    color: #FFFFFF;
 }
 
 .profile-nav-avatar {
@@ -845,8 +888,8 @@ body {
 
 @media (min-width: 431px) {
     .app-container {
-        border-left: 1px solid #DBDBDB;
-        border-right: 1px solid #DBDBDB;
+        border-left: 1px solid #262626;
+        border-right: 1px solid #262626;
     }
 }
 
@@ -855,6 +898,10 @@ body {
     0% { transform: scale(1); }
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
+}
+
+.like-btn.liked {
+    animation: likeAnimation 0.3s ease;
 }
 
 @keyframes heartPop {
@@ -878,8 +925,7 @@ body {
 @media (hover: none) and (pointer: coarse) {
     .icon-btn:hover,
     .action-btn:hover,
-    .more-btn:hover,
-    .close-wishes:hover {
+    .more-btn:hover {
         background-color: transparent;
         transform: none;
     }
@@ -890,9 +936,19 @@ body {
     }
 }
 
+/* Accessibility */
+.icon-btn:focus,
+.action-btn:focus,
+.nav-btn:focus,
+.carousel-btn:focus,
+.rsvp-btn:focus {
+    outline: 2px solid #0095F6;
+    outline-offset: 2px;
+}
+
 /* Loading states */
 .memory-card img {
-    background-color: #F5F5F5;
+    background-color: #1A1A1A;
 }
 
 /* Smooth scrolling */
@@ -904,7 +960,7 @@ body {
 @media (min-width: 768px) {
     .stories-scroll {
         scrollbar-width: thin;
-        scrollbar-color: #DBDBDB transparent;
+        scrollbar-color: #262626 transparent;
     }
     
     .stories-scroll::-webkit-scrollbar {
@@ -917,7 +973,7 @@ body {
     }
     
     .stories-scroll::-webkit-scrollbar-thumb {
-        background-color: #DBDBDB;
+        background-color: #262626;
         border-radius: 2px;
     }
 }
