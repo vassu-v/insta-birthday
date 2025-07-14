@@ -190,25 +190,35 @@ class Birthdaygram {
             });
         });
 
-        closeBtn.addEventListener('click', () => this.closeWishesModal());
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeWishesModal());
+        }
         
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                this.closeWishesModal();
-            }
-        });
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeWishesModal();
+                }
+            });
+        }
 
-        addWishBtn.addEventListener('click', () => this.addNewWish());
+        if (addWishBtn) {
+            addWishBtn.addEventListener('click', () => this.addNewWish());
+        }
         
-        wishInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.addNewWish();
-            }
-        });
+        if (wishInput) {
+            wishInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.addNewWish();
+                }
+            });
+        }
 
-        wishInput.addEventListener('input', () => {
-            addWishBtn.disabled = !wishInput.value.trim();
-        });
+        if (wishInput && addWishBtn) {
+            wishInput.addEventListener('input', () => {
+                addWishBtn.disabled = !wishInput.value.trim();
+            });
+        }
     }
 
     openWishesModal(postId) {
