@@ -893,6 +893,534 @@ body {
     }
 }
 
+/* Desktop/PC Responsive Design - Instagram Web Style */
+@media (min-width: 768px) {
+    body {
+        background-color: #000000;
+        padding: 0;
+    }
+    
+    .app-container {
+        max-width: 935px;
+        margin: 0 auto;
+        background-color: #000000;
+        border-left: 1px solid #262626;
+        border-right: 1px solid #262626;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        min-height: 100vh;
+    }
+    
+    /* Header adjustments for desktop */
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background-color: #000000;
+        border-bottom: 1px solid #262626;
+    }
+    
+    .header-content {
+        max-width: 935px;
+        margin: 0 auto;
+        padding: 16px 20px;
+        height: 60px;
+    }
+    
+    .logo {
+        font-size: 28px;
+        cursor: pointer;
+    }
+    
+    .header-icons {
+        gap: 20px;
+    }
+    
+    .icon-btn {
+        padding: 10px;
+        transition: all 0.2s ease;
+    }
+    
+    .icon-btn:hover {
+        background-color: #1A1A1A;
+        transform: scale(1.05);
+    }
+    
+    /* Stories section for desktop */
+    .stories-container {
+        padding: 20px 0;
+        background-color: #000000;
+        border-bottom: 1px solid #262626;
+    }
+    
+    .music-section {
+        padding: 12px 20px;
+        max-width: 935px;
+        margin: 0 auto;
+    }
+    
+    .stories-scroll {
+        padding: 0 20px;
+        max-width: 935px;
+        margin: 0 auto;
+        gap: 20px;
+    }
+    
+    .story-item {
+        min-width: 80px;
+        gap: 10px;
+    }
+    
+    .story-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .story-username {
+        font-size: 13px;
+        max-width: 80px;
+    }
+    
+    /* Feed layout for desktop */
+    .feed {
+        max-width: 614px;
+        margin: 0 auto;
+        padding: 0 20px;
+        background-color: #000000;
+    }
+    
+    .post {
+        margin-bottom: 24px;
+        border: 1px solid #262626;
+        border-radius: 8px;
+        background-color: #000000;
+        overflow: hidden;
+    }
+    
+    .post:last-child {
+        margin-bottom: 40px;
+    }
+    
+    .post-header {
+        padding: 16px 20px;
+        height: 60px;
+    }
+    
+    .post-user {
+        gap: 14px;
+    }
+    
+    .post-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .post-username {
+        font-size: 15px;
+        cursor: pointer;
+    }
+    
+    .post-username:hover {
+        opacity: 0.7;
+    }
+    
+    .post-location {
+        font-size: 13px;
+    }
+    
+    /* Carousel adjustments for desktop */
+    .post-carousel {
+        aspect-ratio: 1;
+        max-height: 614px;
+    }
+    
+    .carousel-btn {
+        width: 44px;
+        height: 44px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+    }
+    
+    .carousel-btn:hover {
+        background: rgba(0, 0, 0, 0.8);
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .prev-btn {
+        left: 20px;
+    }
+    
+    .next-btn {
+        right: 20px;
+    }
+    
+    .carousel-indicators {
+        bottom: 20px;
+        gap: 10px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Birthday cards desktop styling */
+    .card-content {
+        padding: 40px;
+        max-width: 400px;
+    }
+    
+    .birthday-emoji,
+    .date-icon,
+    .theme-icon,
+    .location-icon,
+    .rsvp-icon {
+        font-size: 56px;
+        margin-bottom: 20px;
+    }
+    
+    .birthday-title {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+    
+    .birthday-subtitle {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    .birthday-name {
+        font-size: 22px;
+        padding: 14px 28px;
+    }
+    
+    .card-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    
+    .date-main,
+    .theme-main,
+    .venue-name {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .time-main,
+    .theme-desc,
+    .venue-address {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .rsvp-text {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    .rsvp-btn {
+        padding: 14px 28px;
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .rsvp-btn:hover {
+        background: #0084D6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 149, 246, 0.3);
+    }
+    
+    /* Memory cards desktop styling */
+    .memory-overlay {
+        padding: 32px 20px 20px;
+    }
+    
+    .memory-year {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+    
+    .memory-caption {
+        font-size: 16px;
+    }
+    
+    /* Post actions for desktop */
+    .post-actions {
+        padding: 12px 20px;
+        height: 52px;
+    }
+    
+    .post-actions-left {
+        gap: 20px;
+    }
+    
+    .action-btn {
+        padding: 10px;
+        transition: all 0.2s ease;
+    }
+    
+    .action-btn:hover {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    
+    .action-btn:active {
+        transform: scale(0.95);
+    }
+    
+    /* Post content for desktop */
+    .post-likes {
+        padding: 0 20px 10px;
+    }
+    
+    .likes-count {
+        font-size: 15px;
+        cursor: pointer;
+    }
+    
+    .likes-count:hover {
+        opacity: 0.7;
+    }
+    
+    .post-caption {
+        padding: 0 20px 10px;
+        line-height: 1.5;
+    }
+    
+    .caption-username {
+        font-size: 15px;
+        cursor: pointer;
+    }
+    
+    .caption-username:hover {
+        opacity: 0.7;
+    }
+    
+    .caption-text {
+        font-size: 15px;
+    }
+    
+    .post-comments {
+        padding: 0 20px 10px;
+    }
+    
+    .view-comments {
+        font-size: 15px;
+    }
+    
+    .view-comments:hover {
+        color: #FFFFFF;
+    }
+    
+    .post-time {
+        padding: 0 20px 20px;
+    }
+    
+    .time-ago {
+        font-size: 13px;
+    }
+    
+    /* Wishes modal for desktop */
+    .wishes-content {
+        width: 500px;
+        max-width: 90vw;
+        max-height: 70vh;
+        border-radius: 16px;
+    }
+    
+    .wishes-header {
+        padding: 20px;
+    }
+    
+    .wishes-header h3 {
+        font-size: 20px;
+    }
+    
+    .wishes-list {
+        padding: 20px;
+        max-height: 500px;
+    }
+    
+    .wish-item {
+        margin-bottom: 20px;
+        gap: 14px;
+    }
+    
+    .wish-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .wish-username {
+        font-size: 15px;
+        margin-bottom: 6px;
+        cursor: pointer;
+    }
+    
+    .wish-username:hover {
+        opacity: 0.7;
+    }
+    
+    .wish-text {
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+    }
+    
+    .wish-time {
+        font-size: 13px;
+    }
+    
+    .add-wish {
+        padding: 20px;
+        gap: 16px;
+    }
+    
+    .add-wish input {
+        font-size: 15px;
+        padding: 8px 0;
+    }
+    
+    .add-wish button {
+        font-size: 15px;
+        padding: 10px 16px;
+    }
+    
+    .add-wish button:hover {
+        opacity: 0.8;
+    }
+    
+    /* Bottom navigation for desktop */
+    .bottom-nav {
+        background-color: #000000;
+        border-top: 1px solid #262626;
+        padding: 12px 0;
+        height: 64px;
+        max-width: 935px;
+        margin: 0 auto;
+        position: sticky;
+        bottom: 0;
+    }
+    
+    .nav-btn {
+        padding: 14px;
+        transition: all 0.2s ease;
+    }
+    
+    .nav-btn:hover {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    
+    .nav-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .profile-nav-avatar {
+        width: 28px;
+        height: 28px;
+    }
+    
+    /* Music player desktop styling */
+    .music-player {
+        padding: 12px 16px;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+    }
+    
+    .music-player:hover {
+        background-color: #262626;
+    }
+    
+    .music-info {
+        gap: 16px;
+    }
+    
+    .music-icon {
+        font-size: 18px;
+    }
+    
+    .music-title {
+        font-size: 14px;
+    }
+    
+    .music-artist {
+        font-size: 12px;
+    }
+    
+    .music-toggle {
+        width: 32px;
+        height: 32px;
+        transition: all 0.2s ease;
+    }
+    
+    .music-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+    
+    /* Hover effects for desktop */
+    .story-item:hover .story-avatar {
+        transform: scale(1.05);
+    }
+    
+    .post:hover {
+        border-color: #3C3C3C;
+    }
+    
+    /* Scrollbar styling for desktop */
+    .stories-scroll::-webkit-scrollbar {
+        display: block;
+        height: 6px;
+    }
+    
+    .stories-scroll::-webkit-scrollbar-track {
+        background: #1A1A1A;
+        border-radius: 3px;
+    }
+    
+    .stories-scroll::-webkit-scrollbar-thumb {
+        background-color: #3C3C3C;
+        border-radius: 3px;
+    }
+    
+    .stories-scroll::-webkit-scrollbar-thumb:hover {
+        background-color: #4C4C4C;
+    }
+    
+    .wishes-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .wishes-list::-webkit-scrollbar-track {
+        background: #1A1A1A;
+        border-radius: 3px;
+    }
+    
+    .wishes-list::-webkit-scrollbar-thumb {
+        background-color: #3C3C3C;
+        border-radius: 3px;
+    }
+    
+    .wishes-list::-webkit-scrollbar-thumb:hover {
+        background-color: #4C4C4C;
+    }
+    
+    /* Disable mobile-specific interactions on desktop */
+    .post-carousel {
+        cursor: default;
+    }
+    
+    .stories-scroll {
+        cursor: grab;
+    }
+    
+    .stories-scroll:active {
+        cursor: grabbing;
+    }
+}
+
 /* Animations */
 @keyframes likeAnimation {
     0% { transform: scale(1); }
